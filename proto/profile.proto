@@ -4,27 +4,66 @@ package profile;
 
 option go_package = "github.com/LavaJover/shvark-profile-service/proto/gen;profilepb";
 
+import "google/protobuf/field_mask.proto";
+
 service ProfileService {
+    rpc CreateProfile(CreateProfileRequest) returns (CreateProfileResponse);
     rpc GetProfile(GetProfileRequest) returns (GetProfileResponse);
     rpc UpdateProfile(UpdateProfileRequest) returns (UpdateProfileResponse);
+    rpc DeleteProfile(DeleteProfileRequest) returns (DeleteProfileResponse);
+
+    rpc GetProfileByUserID(GetProfileByUserIDRequest) returns (GetProfileByUserIDResponse);
+}
+
+message CreateProfileRequest {
+    string user_id = 1;
+    string avatar_url = 2;
+    string tg_link = 3;
+}
+
+message CreateProfileResponse {
+    string profile_id = 1;
 }
 
 message GetProfileRequest {
-    string user_id = 1;
+    string profile_id = 1;
 }
 
 message GetProfileResponse {
-    string user_id = 1;
-    string username = 2;
-    string avatar_url = 4;
-    string bio = 5;
+    string profile_id = 1;
+    string user_id = 2;
+    string avatar_url = 3;
+    string tg_link = 4;
+}
+
+message Profile {
+    string profile_id = 1;
+    string user_id = 2;
+    string avatar_url = 3;
+    string tg_link = 4;
 }
 
 message UpdateProfileRequest {
-    string user_id = 1;
-    string username = 2;
-    string avatar_url = 3;
-    string bio = 4;
+    string profile_id = 1;
+    Profile profile = 2;
+    google.protobuf.FieldMask update_mask = 3;
 }
 
 message UpdateProfileResponse {}
+
+message DeleteProfileRequest {
+    string profile_id = 1;
+}
+
+message DeleteProfileResponse {}
+
+message GetProfileByUserIDRequest {
+    string user_id = 1;
+}
+
+message GetProfileByUserIDResponse {
+    string profile_id = 1;
+    string user_id = 2;
+    string avatar_url = 3;
+    string tg_link = 4;
+}
