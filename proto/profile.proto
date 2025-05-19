@@ -8,7 +8,7 @@ import "google/protobuf/field_mask.proto";
 
 service ProfileService {
     rpc CreateProfile(CreateProfileRequest) returns (CreateProfileResponse);
-    rpc GetProfile(GetProfileRequest) returns (GetProfileResponse);
+    rpc GetProfileByID(GetProfileByIDRequest) returns (GetProfileByIDResponse);
     rpc UpdateProfile(UpdateProfileRequest) returns (UpdateProfileResponse);
     rpc DeleteProfile(DeleteProfileRequest) returns (DeleteProfileResponse);
 
@@ -25,11 +25,11 @@ message CreateProfileResponse {
     string profile_id = 1;
 }
 
-message GetProfileRequest {
+message GetProfileByIDRequest {
     string profile_id = 1;
 }
 
-message GetProfileResponse {
+message GetProfileByIDResponse {
     string profile_id = 1;
     string user_id = 2;
     string avatar_url = 3;
