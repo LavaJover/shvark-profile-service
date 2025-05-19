@@ -30,8 +30,8 @@ func (r *DefaultProfileRepository) CreateProfile(profile *domain.Profile) (strin
 }
 
 func (r *DefaultProfileRepository) GetProfileByID(profileID string) (*domain.Profile, error) {
-	var profileModel *ProfileModel
-	if err := r.DB.Where("id = ?", profileID).First(profileModel).Error; err != nil {
+	var profileModel ProfileModel
+	if err := r.DB.Where("id = ?", profileID).First(&profileModel).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, domain.ErrProfileNotFound
 		}
@@ -47,8 +47,8 @@ func (r *DefaultProfileRepository) GetProfileByID(profileID string) (*domain.Pro
 }
 
 func (r *DefaultProfileRepository) UpdateProfile(profileID string, profile *domain.Profile, fields []string) (*domain.Profile, error) {
-	var profileModel *ProfileModel
-	if err := r.DB.Where("id == ?", profileID).First(profileModel).Error; err != nil {
+	var profileModel ProfileModel
+	if err := r.DB.Where("id == ?", profileID).First(&profileModel).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, domain.ErrProfileNotFound
 		}
@@ -77,8 +77,8 @@ func (r *DefaultProfileRepository) UpdateProfile(profileID string, profile *doma
 }
 
 func (r *DefaultProfileRepository) DeleteProfile(profileID string) (*domain.Profile, error) {
-	var profileModel *ProfileModel
-	if err := r.DB.Where("id = ?", profileID).First(profileModel).Error; err != nil {
+	var profileModel ProfileModel
+	if err := r.DB.Where("id = ?", profileID).First(&profileModel).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, domain.ErrProfileNotFound
 		}
