@@ -8,8 +8,8 @@ import (
 )
 
 type ProfileHandler struct {
-	*profilepb.UnimplementedProfileServiceServer
-	uc domain.ProfileUsecase
+	profilepb.UnimplementedProfileServiceServer
+	Uc domain.ProfileUsecase
 }
 
 func (h *ProfileHandler) CreateProfile(ctx context.Context, r *profilepb.CreateProfileRequest) (*profilepb.CreateProfileResponse, error) {
@@ -18,7 +18,7 @@ func (h *ProfileHandler) CreateProfile(ctx context.Context, r *profilepb.CreateP
 		AvatarURL: r.AvatarUrl,
 		TgLink: r.AvatarUrl,
 	}
-	profileID, err := h.uc.CreateProfile(&profile)
+	profileID, err := h.Uc.CreateProfile(&profile)
 	if err != nil {
 		return nil, err
 	}
@@ -36,7 +36,7 @@ func (h *ProfileHandler) UpdateProfile(ctx context.Context, r *profilepb.UpdateP
 		AvatarURL: r.Profile.AvatarUrl,
 		TgLink: r.Profile.TgLink,
 	}
-	_, err := h.uc.UpdateProfile(profileID, &profile, r.UpdateMask)
+	_, err := h.Uc.UpdateProfile(profileID, &profile, r.UpdateMask.Paths)
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +46,7 @@ func (h *ProfileHandler) UpdateProfile(ctx context.Context, r *profilepb.UpdateP
 
 func (h *ProfileHandler) DeleteProfile(ctx context.Context, r *profilepb.DeleteProfileRequest) (*profilepb.DeleteProfileResponse, error) {
 	profileID := r.ProfileId
-	_, err := h.uc.DeleteProfile(profileID)
+	_, err := h.Uc.DeleteProfile(profileID)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (h *ProfileHandler) DeleteProfile(ctx context.Context, r *profilepb.DeleteP
 
 func (h *ProfileHandler) GetProfileByID(ctx context.Context, r *profilepb.GetProfileByIDRequest) (*profilepb.GetProfileByIDResponse, error) {
 	profileID := r.ProfileId
-	respProfile, err := h.uc.GetProfileByID(profileID)
+	respProfile, err := h.Uc.GetProfileByID(profileID)
 	if err != nil {
 		return nil, err
 	}
@@ -71,7 +71,7 @@ func (h *ProfileHandler) GetProfileByID(ctx context.Context, r *profilepb.GetPro
 
 func (h *ProfileHandler) GetProfileByUserID(ctx context.Context, r *profilepb.GetProfileByUserIDRequest) (*profilepb.GetProfileByUserIDResponse, error) {
 	userID := r.UserId
-	respProfile, err := h.uc.GetProfileByUserID(userID)
+	respProfile, err := h.Uc.GetProfileByUserID(userID)
 	if err != nil {
 		return nil, err
 	}
