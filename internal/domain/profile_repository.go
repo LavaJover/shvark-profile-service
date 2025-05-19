@@ -5,4 +5,5 @@ type ProfileRepository interface {
 	UpdateProfile(profileID string, profile *Profile, fields []string) (*Profile, error)
 	DeleteProfile(profileID string) (*Profile, error)
 	GetProfileByID(profileID string) (*Profile, error)
+	GetProfileByUserID(userID string) (*Profile, error)
 }

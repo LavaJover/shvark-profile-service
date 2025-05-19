@@ -96,3 +96,20 @@ func (r *DefaultProfileRepository) DeleteProfile(profileID string) (*domain.Prof
 		TgLink: profileModel.TgLink,
 	}, nil
 }
+
+func (r *DefaultProfileRepository) GetProfileByUserID(userID string) (*domain.Profile, error) {
+	var profileModel ProfileModel
+	if err := r.DB.Where("user_id = ?", userID).First(&profileModel).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, domain.ErrProfileNotFound
+		}
+		return nil, err
+	}
+
+	return &domain.Profile{
+		ID: profileModel.ID,
+		UserID: profileModel.UserID,
+		AvatarURL: profileModel.AvatarURL,
+		TgLink: profileModel.TgLink,
+	}, nil
+}
